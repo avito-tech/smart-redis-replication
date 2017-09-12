@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"go.avito.ru/gl/smart-redis-replication/command"
+	"github.com/avito-tech/smart-redis-replication/command"
 )
 
 func TestBacklog(t *testing.T) {

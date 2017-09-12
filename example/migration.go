@@ -6,8 +6,8 @@ import (
 	"net"
 	"time"
 
-	srr "go.avito.ru/gl/smart-redis-replication"
-	"go.avito.ru/gl/smart-redis-replication/status"
+	srr "github.com/avito-tech/smart-redis-replication"
+	"github.com/avito-tech/smart-redis-replication/status"
 )
 
 // Migration это обёртка для запуска репликации

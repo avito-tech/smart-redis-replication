@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"go.avito.ru/gl/smart-redis-replication/replica"
+	"github.com/avito-tech/smart-redis-replication/replica"
 )
 
 // Conn это постоянное соединение с redis сервером

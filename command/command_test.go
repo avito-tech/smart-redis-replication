@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"go.avito.ru/gl/smart-redis-replication/data"
+	"github.com/avito-tech/smart-redis-replication/data"
 )
 
 // TestCommandType проверяет правильное определение типа команды

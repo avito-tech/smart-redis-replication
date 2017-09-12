@@ -1,7 +1,7 @@
 package replica
 
 import (
-	"go.avito.ru/gl/smart-redis-replication/replica"
+	"github.com/avito-tech/smart-redis-replication/replica"
 )
 
 // Client это интерфейс соединения с redis сервером

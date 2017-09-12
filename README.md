@@ -74,7 +74,7 @@
 
 ## Installation
 
-    $ go get go.avito.ru/gl/smart-redis-replication
+    $ go get github.com/avito-tech/smart-redis-replication
 
 ## Examples
 

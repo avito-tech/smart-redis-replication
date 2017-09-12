@@ -8,10 +8,10 @@ import (
 	"os"
 	"path"
 
-	"go.avito.ru/gl/smart-redis-replication/backlog"
-	"go.avito.ru/gl/smart-redis-replication/command"
-	"go.avito.ru/gl/smart-redis-replication/resp"
-	"go.avito.ru/gl/smart-redis-replication/status"
+	"github.com/avito-tech/smart-redis-replication/backlog"
+	"github.com/avito-tech/smart-redis-replication/command"
+	"github.com/avito-tech/smart-redis-replication/resp"
+	"github.com/avito-tech/smart-redis-replication/status"
 )
 
 // replica это реализация Replica

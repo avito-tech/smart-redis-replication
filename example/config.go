@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 
-	"go.avito.ru/gl/smart-redis-replication/replica"
+	"github.com/avito-tech/smart-redis-replication/replica"
 )
 
 // Config это минимальный набор данных для запуска мигратора

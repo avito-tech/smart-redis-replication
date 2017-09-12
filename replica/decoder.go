@@ -6,11 +6,11 @@ import (
 	"io"
 	"os"
 
-	"go.avito.ru/gl/smart-redis-replication/backlog"
-	"go.avito.ru/gl/smart-redis-replication/command"
-	"go.avito.ru/gl/smart-redis-replication/data"
-	"go.avito.ru/gl/smart-redis-replication/rdb"
-	"go.avito.ru/gl/smart-redis-replication/status"
+	"github.com/avito-tech/smart-redis-replication/backlog"
+	"github.com/avito-tech/smart-redis-replication/command"
+	"github.com/avito-tech/smart-redis-replication/data"
+	"github.com/avito-tech/smart-redis-replication/rdb"
+	"github.com/avito-tech/smart-redis-replication/status"
 )
 
 type decoder struct {

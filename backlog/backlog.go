@@ -4,7 +4,7 @@ import (
 	"errors"
 	"sync"
 
-	"go.avito.ru/gl/smart-redis-replication/command"
+	"github.com/avito-tech/smart-redis-replication/command"
 )
 
 const (

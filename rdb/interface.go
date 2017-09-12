@@ -3,7 +3,7 @@ package rdb
 import (
 	"io"
 
-	"go.avito.ru/gl/smart-redis-replication/data"
+	"github.com/avito-tech/smart-redis-replication/data"
 )
 
 // KeyConsumer это потребитель ключей с данными прочитанных из RDB файла

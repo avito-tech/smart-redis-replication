@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"time"
 
-	"go.avito.ru/gl/smart-redis-replication/command"
-	"go.avito.ru/gl/smart-redis-replication/data"
-	"go.avito.ru/gl/smart-redis-replication/status"
+	"github.com/avito-tech/smart-redis-replication/command"
+	"github.com/avito-tech/smart-redis-replication/data"
+	"github.com/avito-tech/smart-redis-replication/status"
 )
 
 // Consumer это получатель информации из репликации

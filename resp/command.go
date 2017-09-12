@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"go.avito.ru/gl/smart-redis-replication/command"
+	"github.com/avito-tech/smart-redis-replication/command"
 )
 
 // Command читает и возвращает следующую команду
