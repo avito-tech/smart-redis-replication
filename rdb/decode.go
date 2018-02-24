@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	tokenLevelStart int = iota
+	tokenLevelStart = iota
 	tokenLevelInit
 	tokenLevelDB
 )

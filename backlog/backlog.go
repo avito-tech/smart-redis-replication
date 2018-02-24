@@ -9,7 +9,7 @@ import (
 
 const (
 	// DefaultBacklogSize это размер backlog по умолчанию
-	DefaultBacklogSize int = 50000000
+	DefaultBacklogSize = 50000000
 )
 
 // Backlog это журнал отставания репликации
