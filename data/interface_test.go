@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// TestInteface проверяет соответствие структур интерфейсам
+// TestInterface проверяет соответствие структур интерфейсам
 func TestInterface(t *testing.T) {
 	t.Run("Key", func(t *testing.T) {
 		t.Run("SortedSet", func(t *testing.T) {
