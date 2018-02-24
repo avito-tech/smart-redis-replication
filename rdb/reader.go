@@ -210,7 +210,7 @@ func (r *reader) ReadLength() (length uint32, encoding int8, err error) {
 		encoding = int8(prefix & 0x3F)
 		return 0, encoding, nil
 	}
-	return 0, 0, fmt.Errorf("Undefined length")
+	return 0, 0, fmt.Errorf("undefined length")
 }
 
 // ReadUint8 читает один байт
