@@ -55,7 +55,7 @@ func testBacklog(
 	}
 	backlog := New(size)
 
-	stack := []command.Command{}
+	var stack = make([]command.Command, 0, add)
 	for i := 0; i < add; i++ {
 		cmd := command.New([]string{fmt.Sprintf("command_%d", i)})
 		stack = append(stack, cmd)
