@@ -130,26 +130,26 @@ func (r *reader) ReadString() (string, error) {
 	switch encoding {
 	// length-prefixed string
 	case -1:
-		data, err := r.SafeRead(length)
+		buf, err := r.SafeRead(length)
 		if err != nil {
 			return "", err
 		}
-		return string(data), nil
+		return string(buf), nil
 
 	// integer as string
 	case 0, 1, 2:
-		data, err := r.SafeRead(1 << uint8(encoding))
+		buf, err := r.SafeRead(1 << uint8(encoding))
 		if err != nil {
 			return "", err
 		}
 		var num uint32
 
 		if encoding == 0 {
-			num = uint32(data[0])
+			num = uint32(buf[0])
 		} else if encoding == 1 {
-			num = uint32(data[0]) | (uint32(data[1]) << 8)
+			num = uint32(buf[0]) | (uint32(buf[1]) << 8)
 		} else if encoding == 2 {
-			num = uint32(data[0]) | (uint32(data[1]) << 8) | (uint32(data[2]) << 16) | (uint32(data[3]) << 24) //nolint:lll
+			num = uint32(buf[0]) | (uint32(buf[1]) << 8) | (uint32(buf[2]) << 16) | (uint32(buf[3]) << 24) //nolint:lll
 		}
 		return fmt.Sprintf("%d", num), nil
 
@@ -163,11 +163,11 @@ func (r *reader) ReadString() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		data, err := r.SafeRead(clength)
+		buf, err := r.SafeRead(clength)
 		if err != nil {
 			return "", err
 		}
-		result := string(lzfDecompress(data, length))
+		result := string(lzfDecompress(buf, length))
 		if len(result) != int(length) {
 			return "", fmt.Errorf(
 				"expected decompressed string length %d but actual %d",
@@ -193,18 +193,18 @@ func (r *reader) ReadLength() (length uint32, encoding int8, err error) {
 		length = uint32(prefix & 0x3F)
 		return length, -1, nil
 	case len14Bit:
-		data, err := r.ReadByte()
+		buf, err := r.ReadByte()
 		if err != nil {
 			return 0, 0, err
 		}
-		length = (uint32(prefix&0x3F) << 8) | uint32(data)
+		length = (uint32(prefix&0x3F) << 8) | uint32(buf)
 		return length, -1, nil
 	case len32Bit:
-		data, err := r.SafeRead(4)
+		buf, err := r.SafeRead(4)
 		if err != nil {
 			return 0, 0, err
 		}
-		length = binary.BigEndian.Uint32(data)
+		length = binary.BigEndian.Uint32(buf)
 		return length, -1, nil
 	case lenEnc:
 		encoding = int8(prefix & 0x3F)
@@ -323,9 +323,9 @@ func (a AuxField) Bytes() []byte {
 	key := EncodeString(a.key)
 	value := EncodeString(a.value)
 
-	data := make([]byte, 0, len(key)+len(value)+1)
+	buf := make([]byte, 0, len(key)+len(value)+1)
 
-	buffer := bytes.NewBuffer(data)
+	buffer := bytes.NewBuffer(buf)
 	buffer.WriteByte(AuxFieldOpcode)
 	buffer.Write(key)
 	buffer.Write(value)
@@ -416,9 +416,9 @@ func (r ResizeDB) Bytes() []byte {
 	hashTableSize := EncodeLength(r.hashTableSize)
 	expiryHashTableSize := EncodeLength(r.expiryHashTableSize)
 
-	data := make([]byte, 0, len(hashTableSize)+len(expiryHashTableSize)+1)
+	buf := make([]byte, 0, len(hashTableSize)+len(expiryHashTableSize)+1)
 
-	buffer := bytes.NewBuffer(data)
+	buffer := bytes.NewBuffer(buf)
 	buffer.WriteByte(ResizeDBOpcode)
 	buffer.Write(hashTableSize)
 	buffer.Write(expiryHashTableSize)
@@ -455,10 +455,10 @@ func NewEOF() EOF {
 
 // Bytes возвращает бинарное представление
 func (e EOF) Bytes() []byte {
-	data := make([]byte, 9)
-	data[0] = EOFOpcode
-	binary.LittleEndian.PutUint64(data[1:], e.checksum)
-	return data
+	buf := make([]byte, 9)
+	buf[0] = EOFOpcode
+	binary.LittleEndian.PutUint64(buf[1:], e.checksum)
+	return buf
 }
 
 // ReadEOF читает EOF
@@ -708,11 +708,11 @@ func (r *zipMapReader) ReadLength() (uint32, error) {
 	if lenByte < 253 {
 		return uint32(lenByte), nil
 	} else if lenByte == 253 {
-		data, err := r.SafeRead(4)
+		buf, err := r.SafeRead(4)
 		if err != nil {
 			return 0, fmt.Errorf("error read length: %q", err)
 		}
-		return binary.LittleEndian.Uint32(data), nil
+		return binary.LittleEndian.Uint32(buf), nil
 	}
 	return 0, fmt.Errorf("unexpected length byte %#v", lenByte)
 }
@@ -723,11 +723,11 @@ func (r *zipMapReader) ReadKey() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	data, err := r.SafeRead(length)
+	buf, err := r.SafeRead(length)
 	if err != nil {
 		return nil, fmt.Errorf("error read key: %q", err)
 	}
-	return data, nil
+	return buf, nil
 }
 
 // ReadValue читает значение ключа в zipMap hashMap
@@ -740,21 +740,21 @@ func (r *zipMapReader) ReadValue() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	data, err := r.SafeRead(length)
+	buf, err := r.SafeRead(length)
 	if err != nil {
 		return nil, err
 	}
 	if free > 0 {
-		if int(free) > len(data) {
+		if int(free) > len(buf) {
 			return nil, fmt.Errorf(
 				"expected free < length but actual free:%d and length:%d",
 				uint32(free),
-				len(data),
+				len(buf),
 			)
 		}
-		return data[0 : len(data)-int(free)], nil
+		return buf[0 : len(buf)-int(free)], nil
 	}
-	return data, nil
+	return buf, nil
 }
 
 // ReadZipListHashMap читает HashMap закодированный с помощью ZipList
