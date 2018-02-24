@@ -24,15 +24,15 @@ func TestBacklog(t *testing.T) {
 func testBacklogOverflow(t *testing.T) {
 	backlog := New(2)
 	for i := 0; i < 2; i++ {
-		command := command.New([]string{fmt.Sprintf("command_%d", i)})
-		err := backlog.Add(command)
+		cmd := command.New([]string{fmt.Sprintf("command_%d", i)})
+		err := backlog.Add(cmd)
 		if err != nil {
 			t.Fatalf("backlog error: %q", err)
 		}
 	}
 
-	command := command.New([]string{fmt.Sprintf("command_%d", 3)})
-	err := backlog.Add(command)
+	cmd := command.New([]string{fmt.Sprintf("command_%d", 3)})
+	err := backlog.Add(cmd)
 	if err == nil {
 		t.Fatalf("expected error")
 	}
@@ -55,11 +55,11 @@ func testBacklog(
 	}
 	backlog := New(size)
 
-	stack := []command.Command{}
+	var stack = make([]command.Command, 0, add)
 	for i := 0; i < add; i++ {
-		command := command.New([]string{fmt.Sprintf("command_%d", i)})
-		stack = append(stack, command)
-		err := backlog.Add(command)
+		cmd := command.New([]string{fmt.Sprintf("command_%d", i)})
+		stack = append(stack, cmd)
+		err := backlog.Add(cmd)
 		if err != nil {
 			t.Fatalf("backlog error: %v", err)
 		}
@@ -69,9 +69,9 @@ func testBacklog(
 	}
 
 	for i := 0; i < get; i++ {
-		command := backlog.Get()
-		if !reflect.DeepEqual(stack[i], command) {
-			t.Fatalf("expected command %q but actual %q", stack[i], command)
+		cmd := backlog.Get()
+		if !reflect.DeepEqual(stack[i], cmd) {
+			t.Fatalf("expected command %q but actual %q", stack[i], cmd)
 		}
 	}
 	count := backlog.Count()

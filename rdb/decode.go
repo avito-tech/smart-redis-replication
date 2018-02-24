@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	tokenLevelStart int = iota
+	tokenLevelStart = iota
 	tokenLevelInit
 	tokenLevelDB
 )
@@ -67,7 +67,7 @@ func (d *decoder) DecodeKeys(consumer KeyConsumer) error {
 			if ok {
 				err = nil
 			} else {
-				err = fmt.Errorf(`Unexpected io.EOF, actual token "%#v"`, token)
+				err = fmt.Errorf(`unexpected io.EOF, actual token "%#v"`, token)
 			}
 			return err
 		}
@@ -107,7 +107,7 @@ func (d *decoder) Decode(consumer Consumer) error {
 			if ok {
 				err = consumer.SetEOF(eof)
 			} else {
-				err = fmt.Errorf(`Unexpected io.EOF, actual token "%#v"`, token)
+				err = fmt.Errorf(`unexpected io.EOF, actual token "%#v"`, token)
 			}
 			return err
 		}

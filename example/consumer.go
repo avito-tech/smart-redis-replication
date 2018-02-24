@@ -104,13 +104,13 @@ func (c *Consumer) Key(key data.Key) error {
 		return nil
 	}
 
-	data := struct {
+	item := struct {
 		keyName string
 	}{
 		keyName: sortedSet.Name(),
 	}
 
-	return c.Send("_PATH_", data)
+	return c.Send("_PATH_", item)
 }
 
 // CheckCommand возвращает true если команда интересна получателю
@@ -200,12 +200,12 @@ func (c *Consumer) Send(url string, data interface{}) error {
 func (c *Consumer) status(port int, status string) {
 	t := time.Now().Local().Unix()
 	n := (port - 6300) * 10
-	data := fmt.Sprintf("migration.status.%d.%s %d %d\n", port, status, n, t)
+	buf := fmt.Sprintf("migration.status.%d.%s %d %d\n", port, status, n, t)
 
 	for {
 		conn, err := net.Dial("tcp", "graphite")
 		if err == nil {
-			_, err := conn.Write([]byte(data))
+			_, err := conn.Write([]byte(buf))
 			_ = conn.Close()
 			if err == nil {
 				break
